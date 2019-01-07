@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ych.dao.UserDao">
+    <select id="getLists" resultType="User">
+        select * from user
+    </select>
+    <sql id="insert">
+        insert into user
+    </sql>
+    <insert id="add" >
+        <include refid="insert"/>
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="username != null">
+                username,
+            </if>
+            <if test="password != null">
+                password,
+            </if>
+            <if test="email != null">
+                email,
+            </if>
+            <if test="lv != null">
+                lv,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="username != null">
+                #{username},
+            </if>
+            <if test="password != null">
+                #{password},
+            </if>
+            <if test="email != null">
+                #{email},
+            </if>
+            <if test="lv != null">
+                #{lv},
+            </if>
+        </trim>
+    </insert>
+    <delete id="delete">
+        delete from user where id = #{id}
+    </delete>
+    <update id="update">
+
+        update user
+        <set>
+            <trim suffixOverrides=",">
+                <if test="username != null">
+                    username = #{username},
+                </if>
+                <if test="password != null">
+                    password = #{password},
+                </if>
+                <if test="email != null">
+                    email = #{email},
+                </if>
+                <if test="lv != null">
+                    lv = #{lv},
+                </if>
+            </trim>
+        </set>
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+        </where>
+    </update>
+    <select id="getOne" resultType="User">
+         select * from user where id = #{id}
+    </select>
+</mapper>
