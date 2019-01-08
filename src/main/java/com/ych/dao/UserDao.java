@@ -10,4 +10,5 @@ public interface UserDao {
     public int delete(int id);
     public int update(User user);
     public User getOne(int id);
+    public User getOneByName(String username);
 }

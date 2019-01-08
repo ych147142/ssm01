@@ -39,7 +39,18 @@
 <form action="add.do" method="post">
     <input type="submit" value="添加">
 </form>
+<form action="exit.do" method="post">
+    <input type="submit" value="退出">
+</form>
 
+
+<form action="doUpload.do" method="post" enctype="multipart/form-data">
+    <input type="file" name="files">
+    <input type="file" name="files">
+    <input type="file" name="files">
+    <input type="file" name="files">
+    <input type="submit">
+</form>
 </body>
 </html>
 

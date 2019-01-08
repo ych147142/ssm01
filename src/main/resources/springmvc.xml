@@ -20,6 +20,13 @@
         http://www.springframework.org/schema/aop
        http://www.springframework.org/schema/aop/spring-aop-4.0.xsd
 ">
+    <mvc:interceptors>
+        <mvc:interceptor>
+            <mvc:mapping path="/**/*.do"/>
+            <mvc:exclude-mapping path="/*login.do"/>
+            <bean class="com.ych.web.TestMothed"/>
+        </mvc:interceptor>
+    </mvc:interceptors>
     <mvc:annotation-driven/>
     <context:component-scan base-package="com.ych.web"/>
     <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
@@ -27,5 +34,8 @@
         <property name="prefix" value="WEB-INF/pages/"/>
         <property name="suffix" value=".jsp"/>
     </bean>
-
+    <bean name="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+        <property name="maxUploadSize" value="5000000"/>
+        <property name="defaultEncoding" value="utf-8"/>
+    </bean>
 </beans>
