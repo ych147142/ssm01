@@ -1,5 +1,7 @@
 package com.ych.web;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.sun.deploy.net.HttpResponse;
 import com.ych.pojo.CookieUtil;
 import com.ych.pojo.User;
@@ -27,9 +29,17 @@ public class WebTest {
     @Autowired
     IUserService service ;
     @RequestMapping("/list.do")
-    public String list(ModelMap map){
-        List<User> lists = service.getLists();
+    public String list(ModelMap map,HttpServletRequest req,User user){
+        int pageNum=req.getParameter("pageNum")==null?1:Integer.parseInt(req.getParameter("pageNum"));
+        int pagesize=3;
+        PageHelper.startPage(pageNum,pagesize);
+        List<User> lists = service.getLists(user);
+        PageInfo<User> pageInfo = new PageInfo<>(lists);
+        String username = "&username="+user.getUsername();
+        map.put("username",username);
         map.put("lists",lists);
+        map.put("page",pageInfo);
+
         return "list";
     }
     @RequestMapping("/add.do")
