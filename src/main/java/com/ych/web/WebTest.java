@@ -2,11 +2,13 @@ package com.ych.web;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+
 import com.sun.deploy.net.HttpResponse;
 import com.ych.pojo.CookieUtil;
 import com.ych.pojo.User;
 import com.ych.service.IUserService;
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -33,13 +35,18 @@ public class WebTest {
         int pageNum=req.getParameter("pageNum")==null?1:Integer.parseInt(req.getParameter("pageNum"));
         int pagesize=3;
         PageHelper.startPage(pageNum,pagesize);
-        List<User> lists = service.getLists(user);
-        PageInfo<User> pageInfo = new PageInfo<>(lists);
-        String username = "&username="+user.getUsername();
-        map.put("username",username);
+        List<User> lists = null;
+        if (StringUtils.isBlank(user.getUsername())){
+            user.setUsername(null);
+            lists = service.getLists(user);
+        }else {
+            lists = service.getLists(user);
+            String username = "&username="+user.getUsername();
+            map.put("username",username);
+        }
+        PageInfo<User> pageInfo = new PageInfo<>(lists,4);
         map.put("lists",lists);
         map.put("page",pageInfo);
-
         return "list";
     }
     @RequestMapping("/add.do")
@@ -59,7 +66,7 @@ public class WebTest {
     }
     @RequestMapping("/update.do")
     public String update(ModelMap map,Integer id){
-       User u = service.getOne(id);
+        User u = service.getOne(id);
         map.put("u",u);
         return "update";
     }
@@ -107,7 +114,7 @@ public class WebTest {
     @RequestMapping("/doUpload.do")
     public String upload(@RequestParam("files") MultipartFile[] files){
         for (MultipartFile f:files
-             ) {
+        ) {
             if (!f.isEmpty()){
                 String filename = f.getOriginalFilename();
                 try {

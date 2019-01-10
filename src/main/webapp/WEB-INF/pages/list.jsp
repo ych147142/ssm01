@@ -13,7 +13,7 @@
     <title>Title</title>
 </head>
 <body>
-    <form >
+    <form>
         <input type="text" name="username"><br>
         <input type="submit">
     </form>
@@ -65,10 +65,9 @@
                     <li>上一页</li>
                 </c:when>
                 <c:otherwise>
-                    <li><a href="list.do?pageNum=${page.navigateFirstPage}${username}">首页</a></li>
+                    <li><a href="list.do?pageNum=1${username}">首页</a></li>
                     <li><a href="list.do?pageNum=${page.prePage}${username}">上一页</a></li>
                 </c:otherwise>
-
             </c:choose>
             <c:forEach items="${page.navigatepageNums}" var="i">
                 <c:choose>
@@ -87,7 +86,7 @@
                 </c:when>
                 <c:otherwise>
                     <li><a href="list.do?pageNum=${page.nextPage}${username}">下一页</a></li>
-                    <li><a href="list.do?pageNum=${page.navigateLastPage}${username}">尾页</a></li>
+                    <li><a href="list.do?pageNum=${page.pages}${username}">尾页</a></li>
                 </c:otherwise>
 
             </c:choose>
