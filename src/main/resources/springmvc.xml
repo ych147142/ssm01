@@ -24,6 +24,7 @@
         <mvc:interceptor>
             <mvc:mapping path="/**/*.do"/>
             <mvc:exclude-mapping path="/*login.do"/>
+            <mvc:exclude-mapping path="/*register.do"/>
             <bean class="com.ych.web.TestMothed"/>
         </mvc:interceptor>
     </mvc:interceptors>

@@ -14,6 +14,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.annotation.MultipartConfig;
@@ -127,6 +128,47 @@ public class WebTest {
         }
 
         return "";
+    }
+
+    /**
+     * 注册
+     */
+    @RequestMapping("/register.do")
+    public String register(){
+        return "register";
+    }
+    @RequestMapping("/doregister.do")
+    @ResponseBody
+    public String doregister(User user,String cpwd){
+        if (user.getUsername() != ""){
+            User u = service.getOneByName(user.getUsername());
+            if (u == null){
+                if (user.getPassword() != null){
+                    if (user.getPassword().equals(cpwd)){
+                        return "1";
+                    }else {
+                        return "2";
+                    }
+                }else {
+                    return "5";
+                }
+
+            }else {
+                return "3";//user存在
+            }
+        }else {
+            return "4";//username null
+        }
+    }
+    @RequestMapping("/addregister.do")
+    @ResponseBody
+    public String addRegister(User user){
+        int result = service.add(user);
+        if (result > 0){
+            return "1";
+        }else {
+            return "0";
+        }
     }
 
 }
